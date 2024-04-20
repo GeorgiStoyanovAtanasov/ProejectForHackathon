@@ -22,8 +22,8 @@ public class UserController {
     UserRepository userRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
-    @Autowired
-    LogoutHandler logoutHandler;
+//    @Autowired
+//    LogoutHandler logoutHandler;
 //--------------------------------------------------------------------------------------------
     @Autowired
     private UserService userService;
@@ -31,42 +31,42 @@ public class UserController {
     @GetMapping("/register")
     public String registerForm(Model model){
         model.addAttribute("user",new User());
-        return "event/register";
+        return "/register";
     }
 
     @PostMapping("/register")
     public String registerSubmit(@ModelAttribute @Valid User user,BindingResult bindingResult,Model model){
         if (bindingResult.hasErrors()){
-            return "event/register";
+            return "/register";
         }
         try {
             userService.register(user);
         }catch (RuntimeException ex){
             model.addAttribute("error", ex.getMessage());
-            return "event/register";
+            return "/register";
         }
-        return "redirect:/event/login";
-    }
-    //-------------------------------------------------------------------------------
-    @GetMapping("/login")
-    public String loginForm() {
-        return "login";
-    }
-
-    @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model, RedirectAttributes redirectAttributes) {
-        User user = userRepository.findByUsername(username);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
-            redirectAttributes.addFlashAttribute("wrongCredentials", "wrong credentials");
-            return "/login";
-        }
-        return "redirect:/home";
-    }
-    @GetMapping("/logout")
-    public String performLogout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
-        this.logoutHandler.logout(request, response, authentication);//.doLogout(request, response, authentication);
         return "redirect:/login";
     }
+    //-------------------------------------------------------------------------------
+//    @GetMapping("/login")
+//    public String loginForm() {
+//        return "login";
+//    }
+
+//    @PostMapping("/login")
+//    public String login(@RequestParam("username") String username, @RequestParam("password") String password, Model model, RedirectAttributes redirectAttributes) {
+//        User user = userRepository.findByUsername(username);
+//        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+//            redirectAttributes.addFlashAttribute("wrongCredentials", "wrong credentials");
+//            return "/login";
+//        }
+//        return "redirect:/home";
+//    }
+//    @GetMapping("/logout")
+//    public String performLogout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
+//        this.logoutHandler.logout(request, response, authentication);//.doLogout(request, response, authentication);
+//        return "redirect:/login";
+//    }
 //    @GetMapping("/home")
 //    public String home(Model model) {
 //

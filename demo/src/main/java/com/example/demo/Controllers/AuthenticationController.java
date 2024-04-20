@@ -24,42 +24,42 @@ public class AuthenticationController {
     @GetMapping("/login")
     public String showUserLoginForm(Model model){
         model.addAttribute("user", new User());
-        return "event/login";
+        return "login";
     }
 
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User user, HttpSession session, BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
-            return "event/login";
+            return "/login";
         }
         try {
             Optional<User> authenticatedUser= authenticationService.authenticateUser(user.getUsername(),user.getPassword());
 
             if (authenticatedUser.isPresent()){
                 session.setAttribute("user",authenticatedUser.get());
-                return "redirect:/event/home";
+                return "redirect:/home";
             }else {
                 model.addAttribute("user",user);
                 model.addAttribute("error","Wrong username or password");
-                return "event/login";
+                return "/event/login";
             }
         }catch (IllegalArgumentException ex){
             bindingResult.rejectValue("username","error.username",ex.getMessage());
-            return "event/login";
+            return "/event/login";
         }
     }
 
-    @GetMapping("/home")
-    public String showHome(HttpSession session, Model model){
-        User user=(User) session.getAttribute("user");
-       if (user==null){
-           return "redirect:/event/login";
-       }
-       else {
-           model.addAttribute("user",user);
-           return "/event/home";
-       }
-    }
+//    @GetMapping("/home")
+//    public String showHome(HttpSession session, Model model){
+//        User user=(User) session.getAttribute("user");
+//       if (user==null){
+//           return "redirect:/event/login";
+//       }
+//       else {
+//           model.addAttribute("user",user);
+//           return "redirect:/home";
+//       }
+//    }
 
     @GetMapping("/out")
     public ModelAndView logoutButton(HttpSession session){

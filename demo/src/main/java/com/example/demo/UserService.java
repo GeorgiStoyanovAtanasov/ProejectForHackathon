@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Constants.Role;
 import com.example.demo.Entities.User;
 import com.example.demo.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class UserService {
 
         String hashedPassword= BCrypt.hashpw(user.getPassword(),BCrypt.gensalt());
         user.setPassword(hashedPassword);
-
+        user.setRole(Role.USER);
         userRepository.save(user);
     }
 }

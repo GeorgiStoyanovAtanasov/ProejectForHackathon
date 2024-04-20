@@ -13,7 +13,7 @@
                     <h3 class="text-center">Login</h3>
                 </div>
                 <div class="card-body">
-                    <form th:object="${user}" th:action="@{/login}" method="post" action="home.html">
+                    <form th:object="${user}" th:action="@{/event/login}" method="post" action="home.html">
                         <div class="mb-3">
                             <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert alert-danger text-center mt-3"></p>
                             <p class="alert alert-danger mt-2" th:if="${error}" th:text="${error}"></p>
@@ -25,7 +25,7 @@
                             <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
                         </div>
                         <button type="submit" class="btn btn-warning mr-2" name="submit">Login</button>
-                        <a href="/register" class="btn btn-secondary" role="button">Register</a>
+                        <a href="/event/register" class="btn btn-secondary" role="button">Register</a>
                     </form>
                 </div>
             </div>

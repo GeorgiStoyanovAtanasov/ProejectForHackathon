@@ -6,6 +6,7 @@ import com.example.demo.Entities.UserEvent;
 import com.example.demo.Repositories.EventRepository;
 import com.example.demo.Repositories.UserEventRepository;
 import com.example.demo.Repositories.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,11 @@ public class EventController {
     @Autowired
     UserRepository userRepository;
     @GetMapping("/home")
-    public String getHomeTemplate(Model model){
+    public String getHomeTemplate(Model model, HttpSession session){
+        User user=(User) session.getAttribute("user");
+        if (user==null){
+            return "redirect:/event/login";
+        }
         LocalDateTime localDateTime = LocalDateTime.now();
         List<Event> allEvents = (List<Event>) eventRepository.findAll();
         List<Event> selectedEvents = new ArrayList<>();
