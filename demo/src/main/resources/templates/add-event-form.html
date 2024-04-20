@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Event</title>
+</head>
+<body>
+<h2>Add New Event</h2>
+<form th:action="@{/save-event}" th:object="${event}" method="post">
+    <div>
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required />
+    </div>
+    <div>
+        <label>Description:</label>
+        <textarea th:field="*{description}" required></textarea>
+    </div>
+    <div>
+        <label>Start Time:</label>
+        <input type="datetime-local" th:field="*{starterTime}" required />
+    </div>
+    <div>
+        <label>End Time:</label>
+        <input type="datetime-local" th:field="*{endTime}" required />
+    </div>
+    <div>
+        <button type="submit">Add Event</button>
+    </div>
+</form>
+</body>
+</html>
