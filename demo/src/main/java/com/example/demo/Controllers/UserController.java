@@ -2,21 +2,21 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Entities.User;
 import com.example.demo.Repositories.UserRepository;
+import com.example.demo.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+@Controller
+@RequestMapping("/event")
 public class UserController {
     @Autowired
     UserRepository userRepository;
@@ -24,6 +24,30 @@ public class UserController {
     PasswordEncoder passwordEncoder;
     @Autowired
     LogoutHandler logoutHandler;
+//--------------------------------------------------------------------------------------------
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/register")
+    public String registerForm(Model model){
+        model.addAttribute("user",new User());
+        return "event/register";
+    }
+
+    @PostMapping("/register")
+    public String registerSubmit(@ModelAttribute @Valid User user,BindingResult bindingResult,Model model){
+        if (bindingResult.hasErrors()){
+            return "event/register";
+        }
+        try {
+            userService.register(user);
+        }catch (RuntimeException ex){
+            model.addAttribute("error", ex.getMessage());
+            return "event/register";
+        }
+        return "redirect:/event/login";
+    }
+    //-------------------------------------------------------------------------------
     @GetMapping("/login")
     public String loginForm() {
         return "login";
