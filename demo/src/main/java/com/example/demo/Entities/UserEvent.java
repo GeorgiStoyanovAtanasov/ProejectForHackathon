@@ -3,6 +3,7 @@ package com.example.demo.Entities;
 import jakarta.persistence.*;
 import org.springframework.validation.annotation.Validated;
 
+
 @Validated
 @Entity
 public class UserEvent {
@@ -14,10 +15,15 @@ public class UserEvent {
     @ManyToOne
     private Event event;
 
+
+    public UserEvent() {
+    }
+
     public UserEvent(User user, Event event) {
         this.user = user;
         this.event = event;
     }
+
 
     public Long getId() {
         return id;

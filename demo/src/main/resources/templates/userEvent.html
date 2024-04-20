@@ -1,0 +1,86 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Users of Event</title>-->
+<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"-->
+<!--        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"-->
+<!--        crossorigin="anonymous">-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div class="container">-->
+<!--  <h1>Users of Event</h1>-->
+
+<!--  &lt;!&ndash; Филтър за умения &ndash;&gt;-->
+<!--  <div class="row">-->
+<!--    <div class="col-md-4">-->
+<!--      <form method="post" th:action="@{/view/usersBySkills}">-->
+<!--        <div class="form-group">-->
+<!--          <label for="userSkills">Filter by user skills:</label>-->
+<!--          <select class="form-control" id="userSkills" name="skills">-->
+<!--            <option value="">&#45;&#45;Select a skill&#45;&#45;</option>-->
+<!--            <option value="ALL">All</option>-->
+<!--            &lt;!&ndash; Пример за взимане на стойности от enum UserSkills &ndash;&gt;-->
+<!--            <option th:each="skill : ${T(com.example.demo.Utils.UserSkills).values()}"-->
+<!--                    th:value="${skill}" th:text="${skill.name()}"-->
+<!--                    th:selected="${skill == skills}"></option>-->
+<!--          </select>-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-primary">Filter</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Таблица с потребители &ndash;&gt;-->
+<!--  <table class="table table-striped">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--      <th>First Name</th>-->
+<!--      <th>Last Name</th>-->
+<!--      <th>Job</th>-->
+<!--      <th>About Me</th>-->
+<!--      <th>Skills</th>-->
+<!--      <th>Action</th> &lt;!&ndash; Промених тук </th></th>Action</th> &ndash;&gt;-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    &lt;!&ndash; Итерация през списъка с потребители и показване на информацията за всеки един &ndash;&gt;-->
+<!--    <tr th:each="user : ${users}">-->
+<!--      <td th:text="${user.firstName}"></td>-->
+<!--      <td th:text="${user.lastName}"></td>-->
+<!--      <td th:text="${user.job}"></td>-->
+<!--      <td th:text="${user.aboutMe}"></td>-->
+<!--      <td>-->
+<!--        <form method="post" th:action="@{/view/usersBySkills}">-->
+<!--          <div class="form-group">-->
+<!--            <input type="hidden" name="id" th:value="${user.id}" /> &lt;!&ndash; Поле за ID на потребителя &ndash;&gt;-->
+<!--            <select class="form-control" name="skills" required>-->
+<!--              &lt;!&ndash; Пример за взимане на стойности от enum UserSkills &ndash;&gt;-->
+<!--              <option th:each="skill : ${T(com.example.demo.Utils.UserSkills).values()}"-->
+<!--                      th:value="${skill}" th:text="${skill.name()}"-->
+<!--                      th:selected="${skill == user.skills}"></option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--          <button type="submit" class="btn btn-primary">Save Skills</button> &lt;!&ndash; Бутон за запазване на умения &ndash;&gt;-->
+<!--        </form>-->
+<!--      </td>-->
+<!--      <td>-->
+<!--        <a th:href="@{/view/userDetails(id=${user.id})}" class="btn btn-secondary">Details</a> &lt;!&ndash; Линк за детайли &ndash;&gt;-->
+<!--      </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--  </table>-->
+<!--</div>-->
+
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
+<!--        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
+<!--        crossorigin="anonymous"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"-->
+<!--        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"-->
+<!--        crossorigin="anonymous"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"-->
+<!--        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"-->
+<!--        crossorigin="anonymous"></script>-->
+<!--</body>-->
+<!--</html>-->

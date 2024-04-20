@@ -1,6 +1,6 @@
 package com.example.demo.Controllers;
 
-import com.example.demo.AuthenticationService;
+import com.example.demo.Services.AuthenticationService;
 import com.example.demo.Entities.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

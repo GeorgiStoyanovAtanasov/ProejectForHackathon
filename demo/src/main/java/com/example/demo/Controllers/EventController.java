@@ -6,12 +6,15 @@ import com.example.demo.Entities.UserEvent;
 import com.example.demo.Repositories.EventRepository;
 import com.example.demo.Repositories.UserEventRepository;
 import com.example.demo.Repositories.UserRepository;
+import com.example.demo.Services.EventService;
+import com.example.demo.Utils.UserSkills;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class EventController {
@@ -28,6 +32,9 @@ public class EventController {
     UserEventRepository userEventRepository;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    EventService eventService;
     @GetMapping("/home")
     public String getHomeTemplate(Model model, HttpSession session){
         User user=(User) session.getAttribute("user");
@@ -73,4 +80,21 @@ public class EventController {
         model.addAttribute("event", new Event());
         return "add-event-form";
     }
+//-------------------------------------------------------------------------
+
+//    @GetMapping("/event/{id}/participants")
+//    public String viewParticipants(@PathVariable Long eventId, @RequestParam(required = false) Set<UserSkills> userSkills, Model model) {
+//        Event event = eventRepository.findById(eventId).orElseThrow(() -> new RuntimeException("Event not found"));
+//
+//        List<UserEvent> participants;
+//        if (userSkills != null && !userSkills.isEmpty()) {
+//            participants = userEventRepository.findByEventAndUsersSkillsIn(event, userSkills);
+//        } else {
+//            participants = userEventRepository.findByEvent(event);
+//        }
+//
+//        model.addAttribute("event", event);
+//        model.addAttribute("participants", participants);
+//        return "userEvent";
+//    }
 }
