@@ -43,11 +43,11 @@ public class UserController {
         this.logoutHandler.logout(request, response, authentication);//.doLogout(request, response, authentication);
         return "redirect:/login";
     }
-    @GetMapping("/home")
-    public String home(Model model) {
-
-        return "home";
-    }
+//    @GetMapping("/home")
+//    public String home(Model model) {
+//
+//        return "home";
+//    }
 //    @GetMapping("/register")
 //    public String registerForm(Model model) {
 //        model.addAttribute("player", new User());
