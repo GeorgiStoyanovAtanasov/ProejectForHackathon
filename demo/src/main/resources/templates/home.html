@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -7,9 +7,9 @@
 <body>
 <div class="events-container">
     <div th:each="event : ${events}" class="event-item">
-        <div class="event-title" th:text="${event.title}"></div>
+        <div class="event-title" th:text="${event.name}"></div>
         <div class="event-description" th:text="${event.description}"></div>
-        <!-- Add other event details as needed -->
+        <a th:href="@{'/view?name=' + ${event.name}}" class="event-link">Select Event</a>
     </div>
 </div>
 
