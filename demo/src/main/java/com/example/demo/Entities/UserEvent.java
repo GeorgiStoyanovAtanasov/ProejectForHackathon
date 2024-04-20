@@ -14,6 +14,9 @@ public class UserEvent {
     @ManyToOne
     private Event event;
 
+    public UserEvent() {
+    }
+
     public UserEvent(User user, Event event) {
         this.user = user;
         this.event = event;
