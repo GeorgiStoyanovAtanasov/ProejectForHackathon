@@ -13,4 +13,12 @@ public class UserSkill {
     private User user;
     @ManyToOne
     private Skill skill;
+
+    public UserSkill() {
+    }
+
+    public UserSkill(User user, Skill skill) {
+        this.user = user;
+        this.skill = skill;
+    }
 }
