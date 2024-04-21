@@ -3,29 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Event</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #e9ecef; /* Grey background */
+        }
+
+        .add-event-container {
+            background-color: #fff; /* White background for form */
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<h2>Add New Event</h2>
-<form th:action="@{/save-event}" th:object="${event}" method="post">
-    <div>
-        <label>Name:</label>
-        <input type="text" th:field="*{name}" required />
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 add-event-container">
+            <h2>Add New Event</h2>
+            <form th:action="@{/save-event}" th:object="${event}" method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" required />
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="starterTime" class="form-label">Start Time:</label>
+                    <input type="datetime-local" class="form-control" id="starterTime" th:field="*{starterTime}" required />
+                </div>
+                <div class="mb-3">
+                    <label for="endTime" class="form-label">End Time:</label>
+                    <input type="datetime-local" class="form-control" id="endTime" th:field="*{endTime}" required />
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-warning btn-block">Add Event</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <label>Description:</label>
-        <textarea th:field="*{description}" required></textarea>
-    </div>
-    <div>
-        <label>Start Time:</label>
-        <input type="datetime-local" th:field="*{starterTime}" required />
-    </div>
-    <div>
-        <label>End Time:</label>
-        <input type="datetime-local" th:field="*{endTime}" required />
-    </div>
-    <div>
-        <button type="submit">Add Event</button>
-    </div>
-</form>
+</div>
+<div class="text-center">
+    <br>
+    <a href="/home" class="btn btn-warning">Go to Home</a>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+
 </body>
 </html>

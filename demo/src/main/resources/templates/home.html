@@ -2,9 +2,53 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Events List</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <style>
+        .events-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .event-item {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 20px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-title {
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .event-description {
+            margin-bottom: 15px;
+        }
+
+        .event-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffc107;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .event-link:hover {
+            background-color: #e0a800;
+        }
+    </style>
 </head>
 <body>
+
 <div class="events-container">
     <div th:each="event : ${events}" class="event-item">
         <div class="event-title" th:text="${event.name}"></div>
@@ -12,6 +56,17 @@
         <a th:href="@{'/view?name=' + ${event.name}}" class="event-link">Select Event</a>
     </div>
 </div>
-
+<div align="center">
+    <a href="/event/user/list" class="btn btn-warning">User List</a>
+    <br>
+</div>
+<div align="center" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+    <a href="/event/add" class="btn btn-warning">Add Event</a>
+</div>
+<div class="text-center" th:if="${#authorization.expression('hasAuthority(''USER'') or hasAuthority(''ADMIN'')')}">
+    <br>
+    <a href="/logout" class="btn btn-warning">Logout</a>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 </body>
 </html>

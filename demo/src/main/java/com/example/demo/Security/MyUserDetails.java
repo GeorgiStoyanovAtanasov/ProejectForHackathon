@@ -8,10 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class UserDetailsServices implements UserDetails{
+public class MyUserDetails implements UserDetails {
     private User user;
-
-    UserDetailsServices(User user){
+    MyUserDetails(User user){
         this.user = user;
     }
     @Override

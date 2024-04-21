@@ -1,5 +1,6 @@
 package com.example.demo.Entities;
 
+import com.example.demo.Constants.UserSkills;
 import jakarta.persistence.*;
 import org.springframework.validation.annotation.Validated;
 
@@ -11,14 +12,14 @@ public class UserSkill {
     private Long id;
     @ManyToOne
     private User user;
-    @ManyToOne
-    private Skill skill;
+    @Enumerated(EnumType.STRING)
+    private UserSkills userSkills;
 
     public UserSkill() {
     }
 
-    public UserSkill(User user, Skill skill) {
+    public UserSkill(User user, UserSkills userSkills) {
         this.user = user;
-        this.skill = skill;
+        this.userSkills = userSkills;
     }
 }

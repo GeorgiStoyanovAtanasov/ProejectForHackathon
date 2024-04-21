@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #585858; /* Grey background */
+        }
+
+        .user-list-container {
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .user-btn {
+            background-color: #ffc107; /* Yellow background */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .notification {
+            background-color: #ffc107; /* Yellow background */
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 user-list-container">
+            <h2 style="color: white;">User List</h2>
+            <ul class="list-group">
+                <li th:each="user : ${users}" class="list-group-item user-item">
+                    <a th:href="@{'/chat/' + ${user.username}}" class="user-btn" th:text="${user.username}"></a>
+                    <span id="notification-${user.username}" class="notification"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 chat-container">
+            <div id="chat-box">
+                <ul class="list-group">
+                    <!-- Messages will be populated here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <br>
+    <a href="/home" class="btn btn-warning">Go to Home</a>
+</div>
+<script>
+    var newMessageCount = {};
+
+    function updateNotification(username) {
+        if (!newMessageCount[username]) {
+            newMessageCount[username] = 0;
+        }
+
+        newMessageCount[username]++;
+        $('#notification-' + username).text(newMessageCount[username] + ' new messages');
+    }
+
+    function resetNotification(username) {
+        newMessageCount[username] = 0;
+        $('#notification-' + username).text('');
+    }
+
+    function fetchMessages(username) {
+        $.get('/chat/' + username + '/messages', function(messages) {
+            $('#chat-box ul').empty();
+
+            messages.forEach(function(message) {
+                var messageDiv = $('<div>').text(message.sender.username + ": " + message.content);
+                $('#chat-box ul').append($('<li>').append(messageDiv));
+                updateNotification(message.sender.username);
+            });
+        });
+    }
+
+    function openChat(username) {
+        $('#chat-box ul').empty();
+        fetchMessages(username);
+        resetNotification(username);
+    }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+
+</body>
+</html>
