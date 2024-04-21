@@ -2,17 +2,90 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Event Details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <style>
+        .event-details {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 20px;
+            padding: 20px;
+            width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-title {
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .event-description {
+            margin-bottom: 15px;
+        }
+
+        .event-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffc107;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .event-link:hover {
+            background-color: #e0a800;
+        }
+
+        .participant-button {
+            margin-top: 10px;
+        }
+
+        .skills-filter {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-<form th:action="@{/view}" method="post">
-    <div class="event-details">
-        <h2 th:text="${event.name}"></h2>
-        <p th:text="${event.description}"></p>
-        <input type="hidden" name="eventName" th:value="${event.name}" />
-        <button type="submit">Check-in Event</button>
-    </div>
-</form>
 
+<div class="event-details">
+    <h2 class="event-title" th:text="${event.name}"></h2>
+    <p class="event-description" th:text="${event.description}"></p>
+    <p>Start Time: <span th:text="${event.starterTime}"></span></p>
+    <p>End Time: <span th:text="${event.endTime}"></span></p>
+
+    <form th:action="@{/view}" method="post">
+        <input type="hidden" name="eventName" th:value="${event.name}" />
+        <button type="submit" class="btn btn-warning participant-button">Check-in Event</button>
+    </form>
+</div>
+
+<h3 class="mt-4">  Users Participating:</h3>
+<ul class="list-group mt-2">
+    <li th:each="user : ${users}" class="list-group-item">
+        <form th:action="@{/chat/{username}(username=${user.username})}" method="get">
+            <button type="submit" class="btn btn-secondary" th:text="${user.username}"></button>
+        </form>
+    </li>
+</ul>
+
+<form th:action="@{/view}" method="get" class="skills-filter mt-4">
+    <input type="hidden" name="name" th:value="${event.name}" />
+
+    <h4>Filter by Skills:</h4>
+    <div th:each="skill : ${T(com.example.demo.Constants.UserSkills).values()}">
+        <input type="checkbox" th:id="${skill.getValue()}" th:name="skills" th:value="${skill.value}">
+        <label class="ms-2" th:text="         ${skill.value}" th:for="${skill.getValue()}"></label>
+    </div>
+    <button type="submit" class="btn btn-warning mt-3">Apply Filters</button>
+</form>
+<div class="text-center">
+    <br>
+    <a href="/home" class="btn btn-warning">Go to Home</a>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 </body>
 </html>

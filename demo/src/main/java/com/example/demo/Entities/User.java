@@ -1,11 +1,15 @@
 package com.example.demo.Entities;
 
 import com.example.demo.Constants.Role;
+import com.example.demo.Constants.UserSkills;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Validated
 @Entity
@@ -26,7 +30,9 @@ public class User {
     private String aboutUser;
     @Enumerated(EnumType.STRING)
     private Role role;
-
+    @ElementCollection(targetClass = UserSkills.class)
+    @Enumerated(EnumType.STRING)
+    private List<UserSkills> skills = new ArrayList<>();
     public User() {
     }
 
@@ -100,5 +106,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<UserSkills> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<UserSkills> skills) {
+        this.skills = skills;
     }
 }

@@ -2,8 +2,6 @@ package com.example.demo.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,42 +13,40 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserServiceImpl();
+        return new MyUserDetailsService();
     }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    //--------------------------------------------------------
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        System.out.println("Удостоверен потребител от WebSecurity");
-
-        return authenticationProvider;
-    }
-    //--------------------------------------------------------------------
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/register").permitAll()
-                        .requestMatchers("/chat").hasAnyAuthority("USER", "ADMIN", "ROLE_USER", "ROLE_ADMIN")
-                        .anyRequest().permitAll()
+                        .requestMatchers("/event/register").permitAll()
+                        .requestMatchers("/home").permitAll()//hasAnyAuthority("USER", "ADMIN", "ROLE_USER", "ROLE_ADMIN")
+                        .requestMatchers("/chat/**").hasAnyAuthority("USER", "ADMIN", "ROLE_USER", "ROLE_ADMIN")
+                        .requestMatchers("/chat/send").hasAnyAuthority("USER", "ADMIN", "ROLE_USER", "ROLE_ADMIN")
+                        .requestMatchers("/event/user/list").hasAnyAuthority("USER", "ADMIN", "ROLE_USER", "ROLE_ADMIN")
+                        .requestMatchers("/view").hasAnyAuthority("USER", "ADMIN", "ROLE_USER", "ROLE_ADMIN")
+                        .requestMatchers("/logout").hasAnyAuthority("USER", "ADMIN", "ROLE_USER", "ROLE_ADMIN")
+                        .anyRequest().hasAuthority("ADMIN")
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
-                        .defaultSuccessUrl("/chat")
+                        .defaultSuccessUrl("/home")
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout((logout) -> logout
+                        .logoutUrl("/logout")
+                        .permitAll()
+                );
 
         return http.build();
     }
 }
+
 

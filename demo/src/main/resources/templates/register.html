@@ -14,6 +14,12 @@
                 <div class="card-header">
                     <h3 class="text-center">Registration Form</h3>
                 </div>
+                <div>
+                    <h3 align="center">Already have an account</h3>
+                </div>
+                <div class="text-center mb-4">
+                    <a th:href="@{/login}" class="btn btn-warning">Login</a>
+                </div>
                 <div class="card-body">
                     <form th:action="@{/event/register}" th:object="${user}" method="post">
                         <div >
@@ -33,21 +39,30 @@
                         </div>
                         <div class="mb-3">
                             <label for="job" class="form-label">Current Job Title</label>
-                            <input type="text" class="form-control" id="job" name="job" placeholder="Enter your current job title" th:required="true" th:value="*{username}">
+                            <input type="text" class="form-control" id="job" name="job" placeholder="Enter your current job title" th:required="true" th:value="*{job}">
                         </div>
                         <div class="mb-3">
                             <label for="school" class="form-label">School</label>
-                            <input type="text" class="form-control" id="school" name="school" placeholder="Enter your school"  th:required="true" th:field="*{school}" >
+                            <input type="text" class="form-control" id="school" name="school" placeholder="Enter your school"  th:required="true" th:value="*{school}">
+                        </div>
+                        <div class="mb-3">
+                            <label>Skills:</label><br/>
+                            <div th:each="skill : ${T(com.example.demo.Constants.UserSkills).values()}">
+                                <input type="checkbox" th:id="${#strings.replace(skill.name(), '_', '')}"
+                                       th:name="skills"
+                                       th:value="${skill.name()}"
+                                       th:checked="${user.skills != null and user.skills.contains(skill)}" />
+                                <label th:for="${#strings.replace(skill.name(), '_', '')}" th:text="${skill.value}"></label><br/>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="aboutUser" class="form-label">About You</label>
-                            <input type="text" class="form-control" id="aboutUser" name="school" placeholder="Enter about you"  th:required="true" th:field="*{aboutUser}" >
+                            <input type="text" class="form-control" id="aboutUser" name="aboutUser" placeholder="Enter about you"  th:required="true" th:value="*{aboutUser}">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password"  th:required="true" th:field="*{password}" >
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password"  th:required="true" th:value="*{password}">
                             <div th:if="${#fields.hasErrors('password')}"><span th:errors="*{password}" class="text-danger"></span></div>
-
                         </div>
                         <button type="submit" class="btn btn-warning mr-2" name="submit">Register</button>
                         <button type="reset" class="btn btn-secondary" name="reset">Reset</button>
